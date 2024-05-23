@@ -121,7 +121,7 @@ const Game = ({ difficulty, onGameEnd, highScore }) => {
         placeholder="Nhập kết quả của bạn"
         disabled={gameOver || isPaused} // Ngăn người dùng nhập khi trò chơi kết thúc hoặc đang tạm dừng
       />
-      {!gameOver &&
+      {!gameOver && !isPaused &&
         timeLeft > 0 && ( // Thay đổi điều kiện hiển thị nút "Kiểm tra"
           <button onClick={checkAnswer}>Kiểm tra</button>
         )}

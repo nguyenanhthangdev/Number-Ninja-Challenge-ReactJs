@@ -13,17 +13,23 @@ function App() {
   const [highScore, setHighScore] = useState(() => {
     return localStorage.getItem("highScore") || 0;
   });
+  const [finalScore, setFinalScore] = useState(0);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const handleDifficultySelection = (selectedDifficulty) => {
     setDifficulty(selectedDifficulty);
+    setIsGameOver(false);
   };
 
   const startGame = () => {
     setGameStarted(!gameStarted);
+    setIsGameOver(false);
   };
 
   const endGame = (score) => {
     setGameStarted(false);
+    setFinalScore(score); // Cập nhật điểm số cuối cùng
+    setIsGameOver(true); // Đánh dấu trò chơi đã kết thúc
     if (score > highScore) {
       setHighScore(score);
       localStorage.setItem("highScore", score);
@@ -40,6 +46,11 @@ function App() {
         <Start startGame={startGame} difficultyText={difficulty} onSelectDifficulty={handleDifficultySelection} />
       )}
       {(gameStarted && difficulty !== "") && <Game difficulty={difficulty} score onGameEnd={endGame} highScore={highScore} />}
+      {!gameStarted && isGameOver && ( // Hiển thị điểm số cuối cùng khi trò chơi kết thúc
+        <div>
+          <h2>Trò chơi kết thúc! Điểm của bạn: {finalScore}</h2>
+        </div>
+      )}
     </div>
   );
 }
